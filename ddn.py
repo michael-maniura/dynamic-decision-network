@@ -63,7 +63,7 @@ class DynamicDecisionNetwork:
                 new_possible_belief_state = self.get_new_belief_state(current_belief_state, action, self.grid_pomdb.evidences[evidence])
                 belief_state_reward = self.get_belief_state_reward(new_possible_belief_state)
                 
-                if(belief_state_reward > best_new_belief_state_reward):
+                if belief_state_reward > best_new_belief_state_reward:
                     best_new_belief_state = new_possible_belief_state
                     best_new_belief_state_reward = belief_state_reward
                     best_action = action
@@ -95,7 +95,7 @@ class DynamicDecisionNetwork:
         for possible_follow_up_state in self.get_possible_follow_up_states(new_state):
             sum_of_possible_follow_up_state_probabilities = sum_of_possible_follow_up_state_probabilities + current_belief_state[possible_follow_up_state]
 
-        if(sum_of_possible_follow_up_state_probabilities == 0):
+        if sum_of_possible_follow_up_state_probabilities == 0:
             return 0
         else:
             return current_belief_state_probability_of_new_state / sum_of_possible_follow_up_state_probabilities
@@ -105,7 +105,7 @@ class DynamicDecisionNetwork:
         
         for action in self.grid_pomdb.transitions[state]:
             for probability, possible_follow_up_state in self.grid_pomdb.transitions[state][action]:
-                if(possible_follow_up_state not in possible_follow_up_states):
+                if possible_follow_up_state not in possible_follow_up_states:
                     possible_follow_up_states.append(possible_follow_up_state)
         
         return possible_follow_up_states
@@ -118,7 +118,7 @@ class DynamicDecisionNetwork:
         action):
 
         for probability, possible_new_state in self.grid_pomdb.transitions[current_state][action]:
-            if(possible_new_state == new_state):
+            if possible_new_state == new_state:
                 return probability
         return 0
 
@@ -145,7 +145,7 @@ class DynamicDecisionNetwork:
                 possible_state_probability = state_transition[0]
                 possible_state = state_transition[1]
 
-                if(possible_state in visited_states):
+                if possible_state in visited_states:
                     continue
                 else:
                     visited_states.append(possible_state)
@@ -153,7 +153,7 @@ class DynamicDecisionNetwork:
                 possible_state_utility = self.get_utility_of_state(possible_state, visited_states)
                 weighted_possible_state_utility = possible_state_utility * possible_state_probability
 
-                if(weighted_possible_state_utility > best_follow_up_state_utility):
+                if weighted_possible_state_utility > best_follow_up_state_utility:
                     best_follow_up_state_utility = weighted_possible_state_utility
                     
         # return reward of state + (result of above)
